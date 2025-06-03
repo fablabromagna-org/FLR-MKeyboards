@@ -5,7 +5,7 @@ Progetti di tastiere meccaniche FablabRomagna
 
 ## Tastiere
 
-- [Khor R12](khor_r12/readme.md) - Keypad 4x3 + Encoder +  I²C Oled Display 
+- [Khor R12](khor_r12/) - Keypad 4x3 + Encoder +  I²C Oled Display 
 ## Organizzazione del repository
 
 Questo repository contiene informazioni, documentazione e progetti di tastiere meccaniche (complete o keypad) utilizzate da FablabRomagna nell'ambito delle attività laboratoriali e di corsi.
