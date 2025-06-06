@@ -1,3 +1,12 @@
+/*
+
+ https://docs.qmk.fm/features/midi
+
+*/
+
+
+
+
 #include QMK_KEYBOARD_H
 #include "keys_definitions.h"
 
@@ -7,22 +16,47 @@
 
 extern MidiDevice midi_device;
 
+uint8_t cc_val = 0;
 
 bool handler_encoder_midi(uint8_t index, bool clockwise) {
 
     bool ret = false;
 
     if (clockwise) {
-        tap_code(KC_UP);
+        if (cc_val < 127) cc_val ++;
     } else {
-        tap_code(KC_DOWN);
+        if (cc_val > 0) cc_val--;
     }
+
+    midi_send_cc(&midi_device, midi_config.channel, 80, cc_val);
 
     return ret;
 }
 
 
 bool handler_oled_midi(current_selection_t current_selection) {
+  oled_write_P(PSTR(APP_NAME_MIDI), false);
+
+  if (current_selection.mode == 0) {
+    /* Part Design and Views */
+    oled_write_P(PSTR(" M0 \n\n"), false);
+
+    oled_write_P(PSTR("ccON "), false);
+    oled_write_P(PSTR("ccOF "), false);
+    oled_write_P(PSTR("     "), false);
+    oled_write_P(PSTR("     \n"), false);
+
+    oled_write_P(PSTR("PC1   "), false);
+    oled_write_P(PSTR("PC2   "), false);
+    oled_write_P(PSTR("      "), false);
+    oled_write_P(PSTR("      \n"), false);
+
+    oled_write_P(PSTR("     "), false);
+    oled_write_P(PSTR("     "), false);
+    oled_write_P(PSTR("     "), false);
+    oled_write_P(PSTR("     "), false);
+  }
+
     return false;
 }
 
@@ -59,12 +93,7 @@ return_selection_t handler_keypad_midi(uint8_t appid, uint8_t mode,uint8_t key_i
                     
                 case KEY_3:
                     if (tap_count == 1 && !is_hold) {
-                        static bool toogle_state = false;
-                        toogle_state = !toogle_state;
-                        if (toogle_state) {
-                        }
-                        else {
-                        }
+                        
                     }
                     break;
 
@@ -75,6 +104,7 @@ return_selection_t handler_keypad_midi(uint8_t appid, uint8_t mode,uint8_t key_i
 
                 case KEY_5:
                     if (tap_count == 1 && !is_hold) {
+                        midi_send_programchange(&midi_device, midi_config.channel, 1);
                     }
                     if (tap_count == 2 && !is_hold) {
                     }
@@ -82,6 +112,7 @@ return_selection_t handler_keypad_midi(uint8_t appid, uint8_t mode,uint8_t key_i
 
                 case KEY_6:
                     if (tap_count == 1 && !is_hold) {
+                        midi_send_programchange(&midi_device, midi_config.channel, 2);
                     }
                     break;
                     

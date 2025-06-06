@@ -34,6 +34,12 @@ typedef struct {
 } current_selection_t;
 
 
+#define APP_NAME_DEFAULT "DEFAULT"
+return_selection_t handler_keypad_default(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold);
+bool handler_encoder_default(uint8_t index, bool clockwise);
+bool handler_oled_default(current_selection_t current_selection);
+
+
 #define APP_NAME_FREECAD "FreeCAD"
 return_selection_t handler_keypad_freecad(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold);
 bool handler_encoder_freecad(uint8_t index, bool clockwise);

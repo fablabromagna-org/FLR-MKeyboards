@@ -13,4 +13,4 @@ MIDI_ENABLE = yes
 
 CONSOLE_ENABLE = yes
 
-SRC += freecad_handler.c midi_handler.c
+SRC += default_handler.c freecad_handler.c midi_handler.c

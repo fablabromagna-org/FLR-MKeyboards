@@ -64,7 +64,7 @@ current_selection_t current_selection = {
 };
 
 application_t applications[] = {
-    {_APP_DEFAULT, 1, "DEFAULT", NULL, NULL, NULL},
+    {_APP_DEFAULT, 1, APP_NAME_DEFAULT, handler_keypad_default, handler_encoder_default, handler_oled_default},
     {_APP_FREECAD, 2, APP_NAME_FREECAD, handler_keypad_freecad, handler_encoder_freecad, handler_oled_freecad},
     {_APP_FREECAD, 2, APP_NAME_MIDI, handler_keypad_midi, handler_encoder_midi, handler_oled_midi},
     // {_APP_OBS, 1, "OBS", NULL},
@@ -352,73 +352,19 @@ char* oled_get_app_name(uint8_t appid) {
 }
 
 bool oled_task_user(void) {
-    bool retval = false;
+  bool retval = false;
 
-    if (current_selection.selecting_app) {
-        
-        oled_write_P(PSTR("SELECT: "), false);
-        oled_write_P(PSTR(oled_get_app_name(current_selection.appid)), false);
-        
+  if (current_selection.selecting_app) {
+
+    oled_write_P(PSTR("SELECT: "), false);
+    oled_write_P(PSTR(oled_get_app_name(current_selection.appid)), false);
+
+  } else {
+
+    if (applications[current_selection.appid].handler_oled != NULL) {
+      retval = applications[current_selection.appid].handler_oled(current_selection);
     }
-    else {
+  }
 
-        if (applications[current_selection.appid].handler_oled != NULL) {
-                retval =  applications[current_selection.appid].handler_oled(current_selection);
-        }
-
-        
-
-
-        // Submodes 
-        if (false && (current_selection.appid == _APP_FREECAD) ){
-            if (current_selection.mode == 0) {
-                /* Part Design and Views */
-                oled_write_P(PSTR(" - P.Design\n\n"), false);
-
-                oled_write_P(PSTR("ALL   ") , false);
-                oled_write_P(PSTR("FIT   ") , false);
-                oled_write_P(PSTR("WRF   ") , false);
-                oled_write_P( PSTR("TTR  \n") , false);
-
-                oled_write_P(PSTR("F/C   ") , false);
-                oled_write_P(PSTR("BDY   "), false);
-                oled_write_P(PSTR("BND   ") , false);
-                oled_write_P(PSTR("SKT   \n") , false);
-
-                oled_write_P(PSTR("PAD   ") , false);
-                oled_write_P(PSTR("REV   ") , false);
-                oled_write_P(PSTR("PKT   ") , false);
-                oled_write_P(PSTR("HOL   ") , false);
-            }
-            if (current_selection.mode == 1) {
-                /* Sketcher */
-                oled_write_P(PSTR(" - Sketcher\n\n"), false);
-
-                oled_write_P(PSTR("S/O   ") , false);
-                oled_write_P(PSTR("      ") , false);
-                oled_write_P(PSTR("SEC   ") , false);
-                oled_write_P( PSTR("VSP  \n") , false);
-
-                oled_write_P(PSTR("F/C   ") , false);
-                oled_write_P(PSTR("T/S   "), false);
-                oled_write_P(PSTR("CON   ") , false);
-                oled_write_P(PSTR("EXT   \n") , false);
-
-                oled_write_P(PSTR("P/L   ") , false);
-                oled_write_P(PSTR("ARC   ") , false);
-                oled_write_P(PSTR("CIR   ") , false);
-                oled_write_P(PSTR("REC   ") , false);
-            }
-        }
-
-        
-        // Host Keyboard LED Status
-        // led_t led_state = host_keyboard_led_state();
-        // oled_write_P(led_state.num_lock ? PSTR("\nNUM ") : PSTR("    "), false);
-        // oled_write_P(led_state.caps_lock ? PSTR("\nCAP ") : PSTR("    "), false);
-        // oled_write_P(led_state.scroll_lock ? PSTR("\nSCR ") : PSTR("    "), false);
-
-    }
-
-    return retval;
+  return retval;
 }
