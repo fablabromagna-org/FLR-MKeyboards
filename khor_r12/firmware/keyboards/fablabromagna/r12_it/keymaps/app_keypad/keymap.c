@@ -51,6 +51,7 @@ typedef struct {
 application_t applications[] = {
     {_APP_DEFAULT, 1, "DEFAULT", NULL},
     {_APP_FREECAD, 2, "FreeCAD", handle_keypad_freecad},
+    {_APP_FREECAD, 2, "MIDI", handle_keypad_midi},
     {_APP_OBS, 1, "OBS", NULL},
     {_APP_INKSCAPE, 1, "INKSCAPE", NULL}
 };
@@ -316,9 +317,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #ifdef OLED_ENABLE
 
 //Rotate the display 180 degrees
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    return OLED_ROTATION_180;  
-}
+// oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+//     return OLED_ROTATION_180;  
+// }
 
 
 char* oled_get_app_name(uint8_t appid) {

@@ -28,4 +28,6 @@ typedef struct {
 
 return_selection_t handle_keypad_freecad(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold);
 
+return_selection_t handle_keypad_midi(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold);
+
 #endif
