@@ -1,6 +1,6 @@
 # Khor R12 
 
-Keypad 4x3 con Encoder e Oled fornita da  [Khor](https://github.com/MoltenKhor/R12) ed utilizzata per la prima volta nel corso sulle tastiere meccaniche presso SanLab (maker space Santarcangelo di Romagna) del 22-05-2025, tenuto da  Giulio e Andrea.
+Keypad 4x3 con Encoder e Oled fornita da  [Khor](https://github.com/MoltenKhor/R12) ed utilizzata per la prima volta nel corso sulle tastiere meccaniche presso SanLab (maker space Santarcangelo di Romagna) del 22/05/2025, tenuto da  Giulio e Andrea.
 
 
 ## Descrizione HW
