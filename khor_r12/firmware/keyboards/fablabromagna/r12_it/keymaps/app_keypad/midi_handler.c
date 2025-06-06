@@ -7,7 +7,28 @@
 
 extern MidiDevice midi_device;
 
-return_selection_t handle_keypad_midi(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold) {
+
+bool handler_encoder_midi(uint8_t index, bool clockwise) {
+
+    bool ret = false;
+
+    if (clockwise) {
+        tap_code(KC_UP);
+    } else {
+        tap_code(KC_DOWN);
+    }
+
+    return ret;
+}
+
+
+bool handler_oled_midi(current_selection_t current_selection) {
+    return false;
+}
+
+return_selection_t handler_keypad_midi(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold) {
+
+    
     return_selection_t ret_selection = {
         .appid = appid,
         .mode = mode

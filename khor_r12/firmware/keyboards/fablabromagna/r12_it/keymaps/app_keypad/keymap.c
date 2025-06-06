@@ -29,6 +29,12 @@
 
 #include "keys_definitions.h"
 
+
+
+
+
+
+
 /*************************
  * APPLICATIONS MANAGEMENT
  **************************/
@@ -44,30 +50,29 @@ typedef struct {
     uint8_t appid;
     uint8_t  modes;
     char *display_name;  // max 10 chars
-    return_selection_t (*handler)(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold);
+    return_selection_t (*handler_keypad)(uint8_t appid, uint8_t mode,uint8_t key_id, uint8_t tap_count, bool is_hold);
+    bool (*handler_encoder)(uint8_t index, bool clockwise);
+    bool (*handler_oled)(current_selection_t);
+
 } application_t;
 
-
-application_t applications[] = {
-    {_APP_DEFAULT, 1, "DEFAULT", NULL},
-    {_APP_FREECAD, 2, "FreeCAD", handle_keypad_freecad},
-    {_APP_FREECAD, 2, "MIDI", handle_keypad_midi},
-    {_APP_OBS, 1, "OBS", NULL},
-    {_APP_INKSCAPE, 1, "INKSCAPE", NULL}
-};
-
-
-typedef struct {
-    bool selecting_app;
-    uint8_t appid;
-    uint8_t  mode;
-} current_selection_t;
 
 current_selection_t current_selection = {
     .selecting_app = false,
     .appid = _APP_DEFAULT,
     .mode = 0
 };
+
+application_t applications[] = {
+    {_APP_DEFAULT, 1, "DEFAULT", NULL, NULL, NULL},
+    {_APP_FREECAD, 2, APP_NAME_FREECAD, handler_keypad_freecad, handler_encoder_freecad, handler_oled_freecad},
+    {_APP_FREECAD, 2, APP_NAME_MIDI, handler_keypad_midi, handler_encoder_midi, handler_oled_midi},
+    // {_APP_OBS, 1, "OBS", NULL},
+    // {_APP_INKSCAPE, 1, "INKSCAPE", NULL}
+};
+
+
+
 
 /*************************
  * TAP DANCE MANAGEMENT
@@ -213,8 +218,8 @@ void handle_keypad_action(uint8_t key_id, uint8_t tap_count, bool is_hold) {
     }
     else {
         // TODO: check applications id range
-        if (applications[current_selection.appid].handler != NULL) {
-            ret_value = applications[current_selection.appid].handler(current_selection.appid, current_selection.mode, key_id, tap_count, is_hold);
+        if (applications[current_selection.appid].handler_keypad != NULL) {
+            ret_value = applications[current_selection.appid].handler_keypad(current_selection.appid, current_selection.mode, key_id, tap_count, is_hold);
             current_selection.appid = ret_value.appid;
             current_selection.mode  = ret_value.mode;
         }
@@ -231,9 +236,6 @@ enum layer_names {
     _L1,
     _L2
 };
-
-
-
     
 
 
@@ -268,7 +270,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  
 // Encoder callback
 bool encoder_update_user(uint8_t index, bool clockwise) {
+    bool retval = false;
     if (index == 0) { /* First encoder */
+        if (current_selection.selecting_app) {
+                if (clockwise) {
+                    uint8_t app_nr = sizeof(applications) / sizeof(applications[0]);
+                    if (current_selection.appid < app_nr-1) {
+                        current_selection.appid++;
+                    }
+                }
+                else {
+                    if (current_selection.appid > 0) {
+                      current_selection.appid--;
+                    }
+                }
+        } 
+        else {
+          if (applications[current_selection.appid].handler_encoder != NULL) {
+            retval = applications[current_selection.appid].handler_encoder(index, clockwise);
+          }
+        }
+    }
+
+    return retval;
+/*
         if (current_selection.selecting_app) {
                 if (clockwise) {
             
@@ -306,15 +331,14 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         }
     } 
     return false;
+*/
 }
-
 
 
 
 /*************************
 * OLED MANAGEMENT
 **************************/
-#ifdef OLED_ENABLE
 
 //Rotate the display 180 degrees
 // oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -328,6 +352,7 @@ char* oled_get_app_name(uint8_t appid) {
 }
 
 bool oled_task_user(void) {
+    bool retval = false;
 
     if (current_selection.selecting_app) {
         
@@ -337,10 +362,15 @@ bool oled_task_user(void) {
     }
     else {
 
-        oled_write_P(PSTR(oled_get_app_name(current_selection.appid)), false);
+        if (applications[current_selection.appid].handler_oled != NULL) {
+                retval =  applications[current_selection.appid].handler_oled(current_selection);
+        }
+
+        
+
 
         // Submodes 
-        if (current_selection.appid == _APP_FREECAD) {
+        if (false && (current_selection.appid == _APP_FREECAD) ){
             if (current_selection.mode == 0) {
                 /* Part Design and Views */
                 oled_write_P(PSTR(" - P.Design\n\n"), false);
@@ -389,6 +419,6 @@ bool oled_task_user(void) {
         // oled_write_P(led_state.scroll_lock ? PSTR("\nSCR ") : PSTR("    "), false);
 
     }
-    return false;
+
+    return retval;
 }
-#endif
