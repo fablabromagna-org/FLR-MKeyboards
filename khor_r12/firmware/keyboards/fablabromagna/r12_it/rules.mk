@@ -1,16 +1,3 @@
-OLED_ENABLE = yes
-
-ENCODER_ENABLE = yes
-# ENCODER_MAP_ENABLE = yes
-
-TAP_DANCE_ENABLE = yes
-
-SEND_STRING_ENABLE = yes
-
-# enable this if you want to send MIDI events
-MIDI_ENABLE = yes
+# See rules/mk insider each keymaps folder
 
 
-CONSOLE_ENABLE = yes
-
-SRC += default_handler.c freecad_handler.c midi_handler.c
