@@ -43,5 +43,5 @@ Il display OLED I²C é collegato ai pins SDA/SCL (GP6, GP5).
 
 Al momento i test e le personalizzazioni sono state fatte con il firmware [QMK](https://github.com/qmk/qmk_firmware).
 
-Le diverse implementazioni sono disponibili nella sezione `firmware`, all'interno della cartella [fablabromagna](firmware/keyboards/fablabromagna/)
+Le diverse implementazioni e le istruzioni per la compilazione sono sono disponibili nella sezione `firmware`, all'interno della cartella [fablabromagna](firmware/keyboards/fablabromagna/r12_it)
 
