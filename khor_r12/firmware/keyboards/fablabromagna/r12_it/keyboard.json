@@ -37,7 +37,8 @@
                 {"matrix": [2, 1], "x": 1, "y": 2},
                 {"matrix": [2, 2], "x": 2, "y": 2},
                 {"matrix": [2, 3], "x": 3, "y": 2},
-                {"matrix": [0, 4], "x": 4, "y": 0} // Encoder Switch
+
+                {"matrix": [0, 4], "x": 4, "y": 0} // Encoder Switch - 13th button
             ]
         }
     }

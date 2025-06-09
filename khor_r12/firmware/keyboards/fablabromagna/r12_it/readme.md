@@ -46,7 +46,7 @@ Maggiori informazioni nel [file readme](./keymaps/app_keypad/readme.md) relativo
 
 1. installare e configurare l'ambiente di compilazione del firmware QMK per il proprio sistema operativo, seguendo le istruzioni indicate qui: [https://docs.qmk.fm/newbs_getting_started](https://docs.qmk.fm/newbs_getting_started)
 2. copiare il contenuto della directory `khor_r12/firmware/keyboards/fablabromagna` all'interno del ramo del progetto QMK, nella directory `<qmk_firmware>/keyboards`
-3. compilare il firmware specificando il nome della keyboard `fablabromagna/r12_it` e il keymap desiderato tra quelli presenti (corrisponde al nome della directory sotto `keymapa`)
+3. compilare il firmware specificando il nome della keyboard `fablabromagna/r12_it` e il keymap desiderato tra quelli presenti (corrisponde al nome della directory sotto `keymaps`)
 
 Esempi:
 
@@ -57,6 +57,10 @@ qmk compile -kb fablabromagna/r12_it  -km encoder
 
 qmk compile -kb fablabromagna/r12_it  -km app_keypad 
 ```
+
+
+> utilizzando per la compilazione un sistema Linux è possibile creare un link simbolico che dalla directory dei sorgenti QMK punti alla directory `fablabromagna` di questo repository. In questo modo sará possibile lavorare direttamente sul repository git FLR-MKeyboards senza preoccuparsi di copiare ogni volta i files aggiornati nella cartella del firmware QMK, e gestendo il versioning tramite Git.
+
 
 
 
