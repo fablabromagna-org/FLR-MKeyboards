@@ -252,7 +252,6 @@ bool handler_encoder_freecad(uint8_t index, bool clockwise) {
 }
 
 bool handler_oled_freecad(current_selection_t current_selection) {
-
   oled_write_P(PSTR(APP_NAME_FREECAD), false);
 
   if (current_selection.mode == 0) {

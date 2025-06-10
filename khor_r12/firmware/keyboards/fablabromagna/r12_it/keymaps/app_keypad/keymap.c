@@ -277,11 +277,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                     uint8_t app_nr = sizeof(applications) / sizeof(applications[0]);
                     if (current_selection.appid < app_nr-1) {
                         current_selection.appid++;
+                        oled_clear();
                     }
                 }
                 else {
                     if (current_selection.appid > 0) {
                       current_selection.appid--;
+                      oled_clear();
                     }
                 }
         } 
