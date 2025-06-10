@@ -41,7 +41,7 @@
 *.su
 *.idb
 *.pdb
-
+i*.log
 # Kernel Module Compile Results
 *.mod*
 *.cmd
