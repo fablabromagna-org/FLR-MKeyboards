@@ -6,7 +6,7 @@ Firmware QMK basato sul lavoro di [Khor](https://github.com/MoltenKhor/R12).
 
 Implementa un keypad per la gestione di applicazioni multiple.
 
-́## L'idea di keypad per applicazioni
+## L'idea di keypad per applicazioni
 
 Questa implementazione nasce con l'obiettivo di creare un tastierino per inviare shortcuts (tasti singoli o sequenze di tasti) a varie applicazioni (FreeCAD, Inkscape, OBS).  
 Implementa inoltre anche un controller **MIDI**, per eventuali applicazioni che favoriscano l'integrazione con questo protocollo.  
